@@ -42,8 +42,7 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente buscarPorId(Long id) {
 		// Buscar Cliente por ID.
-		Optional<Cliente> cliente = clienteRepository.findById(id);
-		return cliente.get();
+		return clienteRepository.findById(id).orElseThrow(()-> new RuntimeException("Cliente não encontrado"));
 	}
 
 	@Override
@@ -54,10 +53,8 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public void atualizar(Long id, Cliente cliente) {
 		// Buscar Cliente por ID, caso exista:
-		Optional<Cliente> clienteBd = clienteRepository.findById(id);
-		if (clienteBd.isPresent()) {
-			salvarClienteComCep(cliente);
-		}
+		clienteRepository.findById(id).orElseThrow(()-> new RuntimeException("Cliente não encontrado"));
+		salvarClienteComCep(cliente);
 	}
 
 	@Override
